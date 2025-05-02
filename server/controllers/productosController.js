@@ -1,11 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const db = require('./db');
+const db = require('../config/conexion');
 
-router.get('/', (req, res) => {
+exports.getAll = (req, res) => {
     db.query('SELECT * FROM productos', (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        // Normalizar datos para evitar null/undefined
         const normalizados = results.map(p => ({
             id: p.id,
             nombre: p.nombre || '',
@@ -18,9 +15,9 @@ router.get('/', (req, res) => {
         }));
         res.json(normalizados);
     });
-});
+};
 
-router.post('/', (req, res) => {
+exports.create = (req, res) => {
     const { nombre, descripcion, categoria, precio, stock, proveedor, vencimiento } = req.body;
     db.query('INSERT INTO productos (nombre, descripcion, categoria, precio, stock, proveedor, vencimiento) VALUES (?, ?, ?, ?, ?, ?, ?)',
         [nombre, descripcion, categoria, precio, stock, proveedor, vencimiento],
@@ -29,10 +26,9 @@ router.post('/', (req, res) => {
             res.json({ id: result.insertId, nombre, descripcion, categoria, precio, stock, proveedor, vencimiento });
         }
     );
-});
+};
 
-// PUT (editar producto)
-router.put('/:id', (req, res) => {
+exports.update = (req, res) => {
     const { id } = req.params;
     const { nombre, descripcion, categoria, precio, stock, proveedor, vencimiento } = req.body;
     db.query(
@@ -43,15 +39,12 @@ router.put('/:id', (req, res) => {
             res.json({ id: Number(id), nombre, descripcion, categoria, precio, stock, proveedor, vencimiento });
         }
     );
-});
+};
 
-// DELETE (eliminar producto)
-router.delete('/:id', (req, res) => {
+exports.delete = (req, res) => {
     const { id } = req.params;
     db.query('DELETE FROM productos WHERE id=?', [id], (err) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json({ success: true });
     });
-});
-
-module.exports = router;
+};

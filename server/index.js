@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const productosRutas = require('./productos');
-const ventasRutas = require('./ventas');
-const clientesRutas = require('./clientes');
+const productosRutas = require('./routes/productos');
+const ventasRutas = require('./routes/ventas');
+const clientesRutas = require('./routes/clientes');
 
 const app = express();
 app.use(cors());

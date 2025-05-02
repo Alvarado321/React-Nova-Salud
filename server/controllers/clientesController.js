@@ -1,11 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const db = require('./db');
+const db = require('../config/conexion');
 
-router.get('/', (req, res) => {
+exports.getAll = (req, res) => {
     db.query('SELECT * FROM clientes', (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        // Normalizar datos para evitar null/undefined
         const normalizados = results.map(c => ({
             id: c.id,
             nombre: c.nombre || '',
@@ -16,9 +13,9 @@ router.get('/', (req, res) => {
         }));
         res.json(normalizados);
     });
-});
+};
 
-router.post('/', (req, res) => {
+exports.create = (req, res) => {
     const { nombre, apellido, dni, telefono, direccion } = req.body;
     db.query('INSERT INTO clientes (nombre, apellido, dni, telefono, direccion) VALUES (?, ?, ?, ?, ?)',
         [nombre, apellido, dni, telefono, direccion],
@@ -27,10 +24,9 @@ router.post('/', (req, res) => {
             res.json({ id: result.insertId, nombre, apellido, dni, telefono, direccion });
         }
     );
-});
+};
 
-// PUT (editar cliente)
-router.put('/:id', (req, res) => {
+exports.update = (req, res) => {
     const { id } = req.params;
     const { nombre, apellido, dni, telefono, direccion } = req.body;
     db.query(
@@ -41,15 +37,12 @@ router.put('/:id', (req, res) => {
             res.json({ id: Number(id), nombre, apellido, dni, telefono, direccion });
         }
     );
-});
+};
 
-// DELETE (eliminar cliente)
-router.delete('/:id', (req, res) => {
+exports.delete = (req, res) => {
     const { id } = req.params;
     db.query('DELETE FROM clientes WHERE id=?', [id], (err) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json({ success: true });
     });
-});
-
-module.exports = router;
+};
