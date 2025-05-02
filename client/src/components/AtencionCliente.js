@@ -15,15 +15,24 @@ function AtencionCliente() {
     });
     const [filtro, setFiltro] = useState('');
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         cargarClientes();
     }, []);
 
     const cargarClientes = () => {
+        setLoading(true);
         fetch('/api/clientes')
             .then(res => res.json())
-            .then(data => setClientes(data));
+            .then(data => {
+                setClientes(data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Error al cargar clientes:', error);
+                setLoading(false);
+            });
     };
 
     const handleChange = e => {
@@ -309,6 +318,15 @@ function AtencionCliente() {
                         pointerOnHover
                         striped
                         responsive
+                        progressPending={loading}
+                        progressComponent={
+                            <div className="text-center p-4">
+                                <div className="spinner-border text-primary" role="status">
+                                    <span className="visually-hidden">Cargando...</span>
+                                </div>
+                                <p className="mt-2">Cargando datos...</p>
+                            </div>
+                        }
                         noDataComponent={
                             <div className="text-center p-4">
                                 <i className="bi bi-people display-4 text-muted"></i>

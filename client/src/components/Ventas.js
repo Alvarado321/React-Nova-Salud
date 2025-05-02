@@ -18,12 +18,14 @@ function Ventas() {
     const [cantidad, setCantidad] = useState(1);
     const [filtro, setFiltro] = useState('');
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         cargarDatos();
     }, []);
 
     const cargarDatos = () => {
+        setLoading(true);
         Promise.all([
             fetch('/api/ventas').then(res => res.json()),
             fetch('/api/clientes').then(res => res.json()),
@@ -32,6 +34,10 @@ function Ventas() {
             setVentas(ventasData);
             setClientes(clientesData);
             setProductos(productosData);
+            setLoading(false);
+        }).catch(error => {
+            console.error('Error al cargar datos:', error);
+            setLoading(false);
         });
     };
 
@@ -388,6 +394,15 @@ function Ventas() {
                         pointerOnHover
                         striped
                         responsive
+                        progressPending={loading}
+                        progressComponent={
+                            <div className="text-center p-4">
+                                <div className="spinner-border text-primary" role="status">
+                                    <span className="visually-hidden">Cargando...</span>
+                                </div>
+                                <p className="mt-2">Cargando datos...</p>
+                            </div>
+                        }
                         noDataComponent={
                             <div className="text-center p-4">
                                 <i className="bi bi-cart-x display-4 text-muted"></i>
