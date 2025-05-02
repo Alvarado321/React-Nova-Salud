@@ -231,6 +231,57 @@ function Ventas() {
                 </button>
             </div>
 
+            <div className="alert alert-info d-flex align-items-center mb-4" role="alert">
+                <i className="bi bi-info-circle-fill me-3 fs-4"></i>
+                <div>
+                    En esta sección podrás gestionar las ventas de productos. Registra nuevas ventas, 
+                    visualiza el historial de transacciones y realiza un seguimiento de los ingresos. 
+                    Utiliza el buscador para encontrar ventas específicas.
+                </div>
+            </div>
+
+            <div className="row mb-4">
+                <div className="col-md-4">
+                    <div className="card bg-primary text-white h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 className="card-title mb-0">Total Ventas</h6>
+                                    <h2 className="mt-2 mb-0">{ventas.length}</h2>
+                                </div>
+                                <i className="bi bi-cart-check fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-4">
+                    <div className="card bg-success text-white h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 className="card-title mb-0">Ingresos Totales</h6>
+                                    <h2 className="mt-2 mb-0">S/ {formatMoneda(ventas.reduce((acc, v) => acc + v.total, 0))}</h2>
+                                </div>
+                                <i className="bi bi-currency-dollar fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-4">
+                    <div className="card bg-info text-white h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 className="card-title mb-0">Ventas Hoy</h6>
+                                    <h2 className="mt-2 mb-0">{ventas.filter(v => new Date(v.fecha).toDateString() === new Date().toDateString()).length}</h2>
+                                </div>
+                                <i className="bi bi-calendar-check fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {mostrarFormulario && (
                 <div className="card mb-4 shadow-sm">
                     <div className="card-body">

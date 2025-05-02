@@ -222,6 +222,57 @@ function Inventario() {
                 </button>
             </div>
 
+            <div className="alert alert-info d-flex align-items-center mb-4" role="alert">
+                <i className="bi bi-info-circle-fill me-3 fs-4"></i>
+                <div>
+                    En esta sección podrás gestionar el inventario de productos. Aquí puedes agregar nuevos productos, 
+                    actualizar existentes, controlar el stock y monitorear las fechas de vencimiento. 
+                    Utiliza el buscador para filtrar productos específicos.
+                </div>
+            </div>
+
+            <div className="row mb-4">
+                <div className="col-md-4">
+                    <div className="card bg-primary text-white h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 className="card-title mb-0">Total Productos</h6>
+                                    <h2 className="mt-2 mb-0">{productos.length}</h2>
+                                </div>
+                                <i className="bi bi-box-seam fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-4">
+                    <div className="card bg-warning text-white h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 className="card-title mb-0">Stock Bajo</h6>
+                                    <h2 className="mt-2 mb-0">{productos.filter(p => p.stock < 5).length}</h2>
+                                </div>
+                                <i className="bi bi-exclamation-triangle fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-4">
+                    <div className="card bg-success text-white h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 className="card-title mb-0">Stock Total</h6>
+                                    <h2 className="mt-2 mb-0">{productos.reduce((acc, p) => acc + p.stock, 0)}</h2>
+                                </div>
+                                <i className="bi bi-box-arrow-up fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {mostrarFormulario && (
                 <div className="card mb-4 shadow-sm">
                     <div className="card-body">

@@ -211,6 +211,61 @@ function AtencionCliente() {
                 </button>
             </div>
 
+            <div className="alert alert-info d-flex align-items-center mb-4" role="alert">
+                <i className="bi bi-info-circle-fill me-3 fs-4"></i>
+                <div>
+                    En esta sección podrás gestionar la información de los clientes. Registra nuevos clientes, 
+                    actualiza sus datos y mantén un registro actualizado de la información de contacto. 
+                    Utiliza el buscador para encontrar clientes específicos.
+                </div>
+            </div>
+
+            <div className="row mb-4">
+                <div className="col-md-4">
+                    <div className="card bg-primary text-white h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 className="card-title mb-0">Total Clientes</h6>
+                                    <h2 className="mt-2 mb-0">{clientes.length}</h2>
+                                </div>
+                                <i className="bi bi-people fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-4">
+                    <div className="card bg-success text-white h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 className="card-title mb-0">Clientes Activos</h6>
+                                    <h2 className="mt-2 mb-0">{clientes.length}</h2>
+                                </div>
+                                <i className="bi bi-person-check fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-4">
+                    <div className="card bg-info text-white h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 className="card-title mb-0">Clientes Nuevos</h6>
+                                    <h2 className="mt-2 mb-0">{clientes.filter(c => {
+                                        const fechaRegistro = new Date(c.fecha_registro);
+                                        const hoy = new Date();
+                                        return fechaRegistro.toDateString() === hoy.toDateString();
+                                    }).length}</h2>
+                                </div>
+                                <i className="bi bi-person-plus fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {mostrarFormulario && (
                 <div className="card mb-4 shadow-sm">
                     <div className="card-body">
