@@ -1,0 +1,147 @@
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 2rem;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1rem;
+    animation: float 6s ease-in-out infinite;
+}
+
+.auth-title {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.auth-form {
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    color: #2c3e50;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.input-group {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.input-group-text {
+    background: #f8f9fa;
+    border: none;
+    color: #6c757d;
+}
+
+.form-control {
+    border: none;
+    padding: 0.75rem 1rem;
+    background: #f8f9fa;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    background: #f8f9fa;
+}
+
+.auth-submit {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 10px;
+    font-weight: 500;
+    background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+    border: none;
+    margin-top: 1rem;
+}
+
+.auth-submit:hover {
+    background: linear-gradient(90deg, #182848 0%, #4b6cb7 100%);
+}
+
+.auth-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.auth-switch {
+    text-align: center;
+}
+
+.auth-switch .btn-link {
+    color: #4b6cb7;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.auth-switch .btn-link:hover {
+    color: #182848;
+}
+
+.invalid-feedback {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #dc3545;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@media (max-width: 576px) {
+    .auth-card {
+        padding: 1.5rem;
+    }
+    
+    .auth-logo {
+        width: 60px;
+        height: 60px;
+    }
+} 
