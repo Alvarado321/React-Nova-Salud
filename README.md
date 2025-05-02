@@ -1,9 +1,11 @@
 # Sistema Web de Gestión de Botica "Nova Salud"
 
 ## Descripción General
+
 Este sistema es una aplicación web diseñada para la gestión integral de una botica o farmacia. Permite controlar de manera centralizada el inventario de productos, las ventas y la atención a los clientes, optimizando los procesos internos y mejorando la experiencia tanto del personal como de los clientes.
 
 ## ¿Qué ofrece el sistema?
+
 - **Gestión de Inventario:**
   - Registro, edición y eliminación de productos.
   - Visualización de stock en tiempo real.
@@ -26,21 +28,25 @@ Este sistema es una aplicación web diseñada para la gestión integral de una b
   - Formularios claros y notificaciones visuales para cada acción.
 
 ## Beneficios para la botica
+
 - Reduce errores humanos y pérdidas por desabastecimiento.
 - Acelera la atención al cliente y el control de ventas.
 - Permite tomar mejores decisiones con información actualizada.
 - Facilita el trabajo del personal, incluso si no tiene experiencia en sistemas.
 
 ## ¿Quién puede usarlo?
+
 - Personal de boticas y farmacias.
 - Administradores y encargados de inventario.
 - Cualquier usuario que necesite controlar productos, ventas y clientes de manera sencilla.
 
 ## ¿Qué se necesita para usarlo?
+
 - Navegador web (Google Chrome, Firefox, Edge, etc).
 - Tener instalado XAMPP o un servidor MySQL y Node.js.
 
 ## ¿Cómo funciona?
+
 1. El usuario accede al sistema desde su navegador.
 2. Puede registrar productos, clientes y ventas fácilmente.
 3. El sistema muestra alertas y notificaciones para cada acción.
