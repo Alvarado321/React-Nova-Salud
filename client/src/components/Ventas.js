@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import Select from 'react-select';
 import { dataTableConfig, formatFecha, formatMoneda } from '../utils/common';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -202,6 +203,12 @@ function Ventas() {
         Object.values(v).join(' ').toLowerCase().includes(filtro.toLowerCase())
     );
 
+    const opcionesProductos = productos.map(p => ({
+        value: p.id,
+        label: `${p.nombre} - Stock: ${p.stock} - S/ ${formatMoneda(p.precio)}`,
+        isDisabled: p.stock < 1
+    }));
+
     return (
         <div className="container-fluid">
             <div className="d-flex justify-content-between align-items-center mb-4">
@@ -247,20 +254,16 @@ function Ventas() {
                                 </div>
                                 <div className="card-body">
                                     <div className="row g-3">
-                                        <div className="col-md-6">
-                                            <select 
-                                                className="form-select" 
-                                                value={productoSeleccionado} 
-                                                onChange={e => setProductoSeleccionado(e.target.value)}
-                                            >
-                                                <option value="">Seleccione un producto</option>
-                                                {productos.map(p => (
-                                                    <option key={p.id} value={p.id} disabled={p.stock < 1}>
-                                                        {p.nombre} - Stock: {p.stock} - S/ {formatMoneda(p.precio)}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
+                                    <div className="col-md-6">
+                                        <Select
+                                            options={opcionesProductos}
+                                            value={opcionesProductos.find(option => option.value === productoSeleccionado)}
+                                            onChange={option => setProductoSeleccionado(option ? option.value : '')}
+                                            isSearchable
+                                            placeholder="Seleccione un producto"
+                                            isOptionDisabled={option => option.isDisabled} 
+                                        />
+                                    </div>
                                         <div className="col-md-3">
                                             <input 
                                                 type="number" 

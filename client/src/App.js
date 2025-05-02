@@ -1,12 +1,34 @@
-import React, { useState } from 'react';
-import Inventario from './components/Inventario';
-import Ventas from './components/Ventas';
-import AtencionCliente from './components/AtencionCliente';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import './App.css';
 
-function App() {
-    const [vista, setVista] = useState('inventario');
+import Auth from './components/Auth';
+import Ventas from './components/Ventas';
+import Inventario from './components/Inventario';
+import AtencionCliente from './components/AtencionCliente';
+
+// Componente de protección de rutas
+const ProtectedRoute = ({ children }) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return <Navigate to="/" replace />;
+    }
+    return children;
+};
+
+// Componente de navegación
+const Navigation = () => {
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/';
+    };
+
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+    const [vista, setVista] = React.useState('inventario');
 
     return (
         <div className="d-flex">
@@ -61,12 +83,18 @@ function App() {
                 </ul>
 
                 <div className="position-absolute bottom-0 start-0 p-3 w-100">
-                    <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center mb-3">
                         <i className="bi bi-person-circle fs-4 me-2"></i>
                         <div>
                             <small className="d-block">Bienvenido</small>
-                            <strong>Usuario</strong>
+                            <strong>{user.nombres} {user.apellido_paterno}</strong>
                         </div>
+                    </div>
+                    <div className="text-center">
+                        <button
+                            className="btn btn-outline-light"
+                            onClick={handleLogout}>Cerrar Sesión
+                        </button>
                     </div>
                 </div>
             </nav>
@@ -82,6 +110,51 @@ function App() {
                 </div>
             </main>
         </div>
+    );
+};
+
+function App() {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Auth />} />
+                <Route path="/dashboard" element={
+                    <ProtectedRoute>
+                        <>
+                            <Navigation />
+                            <div className="container mt-4">
+                                <h1>Dashboard</h1>
+                                {/* Aquí va el contenido del dashboard */}
+                            </div>
+                        </>
+                    </ProtectedRoute>
+                } />
+                <Route path="/ventas" element={
+                    <ProtectedRoute>
+                        <>
+                            <Navigation />
+                            <Ventas />
+                        </>
+                    </ProtectedRoute>
+                } />
+                <Route path="/inventario" element={
+                    <ProtectedRoute>
+                        <>
+                            <Navigation />
+                            <Inventario />
+                        </>
+                    </ProtectedRoute>
+                } />
+                <Route path="/atencion-cliente" element={
+                    <ProtectedRoute>
+                        <>
+                            <Navigation />
+                            <AtencionCliente />
+                        </>
+                    </ProtectedRoute>
+                } />
+            </Routes>
+        </Router>
     );
 }
 
