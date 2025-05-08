@@ -1,0 +1,98 @@
+version: '3.8'
+
+#* Instrucciones de uso:
+
+# Construcción de imágenes:
+#* - Para construir imágenes: docker compose build
+# - Para reconstruir un servicio específico: docker compose up -d --no-deps --build [servicio]
+# - Para reconstruir todos los servicios: docker compose up -d --build
+
+# Inicio de servicios:
+#* - Para iniciar todos los servicios en segundo plano (recomendado): docker compose up -d
+# - Para iniciar servicios en primer plano: docker compose up
+# - Para iniciar servicios sin construir imágenes: docker compose up -d --no-build
+
+# Detención de servicios:
+# - Para detener servicios: docker compose down
+# - Para detener servicios y eliminar volúmenes asociados: docker compose down -v
+
+# Logs y monitoreo:
+# - Para ver logs: docker compose logs -f [servicio]
+# - Para listar los servicios activos: docker compose ps
+
+# Administración de servicios:
+# - Para reiniciar un servicio específico: docker compose restart [servicio]
+# - Para ejecutar un comando en un contenedor: docker compose exec [servicio] [comando]
+
+# Limpieza:
+# - Para eliminar imágenes huérfanas: docker image prune
+
+services:
+  # Sistema de gestión de salud Nova Salud
+  # Desarrollado por: Grupo Nova Salud
+  db:
+    container_name: novasalud-mysql
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=novasalud123
+      - MYSQL_DATABASE=nova_salud
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./server/config/commandsql.txt:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+
+  # Frontend service
+  # Access: http://localhost:3000
+  client:
+    container_name: novasalud-frontend
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - server
+    environment:
+      - REACT_APP_API_URL=http://localhost:4000
+    restart: unless-stopped
+
+  # Backend service
+  # Access: http://localhost:4000
+  server:
+    container_name: novasalud-backend
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=novasalud123
+      - DB_NAME=nova_salud
+    restart: unless-stopped
+
+  # phpMyAdmin service
+  # Access: http://localhost:5000
+  phpmyadmin:
+    container_name: novasalud-phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "5000:80"
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_USER=root
+      - MYSQL_ROOT_PASSWORD=novasalud123
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+    name: SISTEMA_NOVA_SALUD

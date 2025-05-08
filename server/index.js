@@ -14,7 +14,8 @@ app.use('/api/productos', productosRutas);
 app.use('/api/ventas', ventasRutas);
 app.use('/api/clientes', clientesRutas);
 
-const PORT = 4000;
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor escuchando en puerto ${PORT}`);
 });
