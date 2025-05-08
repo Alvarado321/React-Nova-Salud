@@ -22,6 +22,16 @@ FROM nginx:alpine
 # Copiar la build desde la etapa anterior
 COPY --from=build /app/build /usr/share/nginx/html
 
+# Configurar nginx para manejar rutas de React
+RUN echo 'server { \
+    listen 80; \
+    location / { \
+        root /usr/share/nginx/html; \
+        index index.html index.htm; \
+        try_files $uri $uri/ /index.html; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
+
 # Exponer puerto 80
 EXPOSE 80
 
