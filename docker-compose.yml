@@ -100,8 +100,8 @@ services:
       - db
     environment:
       - DB_HOST=db
-      - DB_USER=root
-      - DB_PASSWORD=novasalud123
+      - DB_USER=admin
+      - DB_PASSWORD=admin123
       - DB_NAME=nova_salud
     restart: unless-stopped
 

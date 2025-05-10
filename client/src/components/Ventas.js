@@ -27,9 +27,9 @@ function Ventas() {
     const cargarDatos = () => {
         setLoading(true);
         Promise.all([
-            fetch('/api/ventas').then(res => res.json()),
-            fetch('/api/clientes').then(res => res.json()),
-            fetch('/api/productos').then(res => res.json())
+            fetch('http://localhost:4000/api/ventas').then(res => res.json()),
+            fetch('http://localhost:4000/api/clientes').then(res => res.json()),
+            fetch('http://localhost:4000/api/productos').then(res => res.json())
         ]).then(([ventasData, clientesData, productosData]) => {
             setVentas(ventasData);
             setClientes(clientesData);
@@ -85,7 +85,7 @@ function Ventas() {
             return;
         }
 
-        fetch('/api/ventas', {
+        fetch('http://localhost:4000/api/ventas', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -99,6 +99,7 @@ function Ventas() {
                 setVentas([...ventas, data]);
                 setVenta({ cliente: '', productos: [], total: 0 });
                 setMostrarFormulario(false);
+                cargarDatos();
                 MySwal.fire('¡Éxito!', 'Venta registrada correctamente', 'success');
             });
     };
@@ -195,7 +196,7 @@ function Ventas() {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`/api/ventas/${venta.id}`, { method: 'DELETE' })
+                fetch(`http://localhost:4000/api/ventas/${venta.id}`, { method: 'DELETE' })
                     .then(res => res.json())
                     .then(() => {
                         setVentas(ventas.filter(v => v.id !== venta.id));

@@ -24,7 +24,7 @@ function Inventario() {
 
     const cargarProductos = () => {
         setLoading(true);
-        fetch('/api/productos')
+        fetch('http://localhost:4000/api/productos')
             .then(res => res.json())
             .then(data => {
                 setProductos(data);
@@ -42,7 +42,7 @@ function Inventario() {
 
     const agregarProducto = (e) => {
         e.preventDefault();
-        fetch('/api/productos', {
+        fetch('http://localhost:4000/api/productos', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -168,7 +168,7 @@ function Inventario() {
                     vencimiento: document.getElementById('vencimiento').value
                 };
 
-                fetch(`/api/productos/${producto.id}`, {
+                fetch(`http://localhost:4000/api/productos/${producto.id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datos)
@@ -192,7 +192,7 @@ function Inventario() {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`/api/productos/${producto.id}`, { method: 'DELETE' })
+                fetch(`http://localhost:4000/api/productos/${producto.id}`, { method: 'DELETE' })
                     .then(res => res.json())
                     .then(() => {
                         setProductos(productos.filter(p => p.id !== producto.id));
